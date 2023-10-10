@@ -29,7 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       {/* PersistGate перевірка LocalStorage */}
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
-          <BrowserRouter basename="goit-react-hw-08-phonebook">
+          <BrowserRouter basename="phone-book">
             <App />
           </BrowserRouter>
         </ThemeProvider>

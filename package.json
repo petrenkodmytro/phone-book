@@ -1,8 +1,8 @@
 {
-  "name": "react-homework-template",
+  "name": "phone-book",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://petrenkodmytro.github.io/goit-react-hw-08-phonebook/",
+  "homepage": "https://petrenkodmytro.github.io/phone-book/",
   "dependencies": {
     "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.11.0",

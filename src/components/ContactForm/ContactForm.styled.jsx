@@ -25,13 +25,19 @@ export const FormField = styled.label`
 export const FieldInput = styled(Field)`
   padding: 10px;
   border: none;
+  outline: none;
   border-radius: 5px;
   box-shadow: inset 1px 1px 3px ${props => props.theme.colors.accentLight},
     inset -1px -1px 5px ${props => props.theme.colors.accentLight};
+  &::placeholder {
+    font-size: 10px;
+    font-style: italic;
+  }
 `;
 
 export const LabelWrapper = styled.div`
   display: flex;
+  align-items: flex-end;
   gap: 8px;
   margin-left: 8px;
   margin-bottom: 5px;

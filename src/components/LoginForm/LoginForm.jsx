@@ -1,11 +1,14 @@
 import { Formik, Field } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from 'redux/auth/auth-operations';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { LoginFormBtn, LoginFormWrapp } from './LoginForm.styled';
+import { selectErrorAuth } from 'redux/auth/auth-selectors';
+import { Text } from 'components/ContactList/ContactList.styled';
+
 const LogInSchema = Yup.object({
   email: Yup.string('Enter your email')
     .email('Enter a valid email')
@@ -19,71 +22,77 @@ export const LoginForm = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
+  const error = useSelector(selectErrorAuth);
+
   const handlePasswordVisibility = () => {
     setShowPassword(prevShowPassword => !prevShowPassword);
   };
   return (
-    <LoginFormWrapp>
-      <Formik
-        initialValues={{
-          email: '',
-          password: '',
-        }}
-        validationSchema={LogInSchema}
-        onSubmit={({ ...values }, actions) => {
-          dispatch(logIn({ ...values }));
-          actions.resetForm();
-        }}
-      >
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <Field name="email">
-              {({ field, form: { touched, errors } }) => (
-                <TextField
-                  {...field}
-                  label="Email"
-                  variant="outlined"
-                  error={touched.email && Boolean(errors.email)}
-                  helperText={touched.email && errors.email}
-                  fullWidth
-                  margin="normal"
-                  autoComplete="off"
-                  size="small"
-                />
-              )}
-            </Field>
+    <>
+      <LoginFormWrapp>
+        <Formik
+          initialValues={{
+            email: '',
+            password: '',
+          }}
+          validationSchema={LogInSchema}
+          onSubmit={({ ...values }, actions) => {
+            dispatch(logIn({ ...values }));
+            actions.resetForm();
+          }}
+        >
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="email">
+                {({ field, form: { touched, errors } }) => (
+                  <TextField
+                    {...field}
+                    label="Email"
+                    variant="outlined"
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                    fullWidth
+                    margin="normal"
+                    autoComplete="off"
+                    size="small"
+                  />
+                )}
+              </Field>
 
-            <Field name="password">
-              {({ field, form: { touched, errors } }) => (
-                <TextField
-                  {...field}
-                  type={showPassword ? 'text' : 'password'}
-                  label="Password"
-                  variant="outlined"
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password && errors.password}
-                  fullWidth
-                  margin="normal"
-                  autoComplete="off"
-                  size="small"
-                  sx={{ mb: 2 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handlePasswordVisibility}>
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-            </Field>
+              <Field name="password">
+                {({ field, form: { touched, errors } }) => (
+                  <TextField
+                    {...field}
+                    type={showPassword ? 'text' : 'password'}
+                    label="Password"
+                    variant="outlined"
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
+                    fullWidth
+                    margin="normal"
+                    autoComplete="off"
+                    size="small"
+                    sx={{ mb: 2 }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handlePasswordVisibility}>
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              </Field>
 
-            <LoginFormBtn type="submit">Log In</LoginFormBtn>
-          </form>
-        )}
-      </Formik>
-    </LoginFormWrapp>
+              <LoginFormBtn type="submit">Log In</LoginFormBtn>
+            </form>
+          )}
+        </Formik>
+      </LoginFormWrapp>
+      {/* помилка запиту */}
+      {error && <Text>{error}</Text>}
+    </>
   );
 };

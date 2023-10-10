@@ -3,7 +3,7 @@ import { logIn, logOut, refreshUser, register } from './auth-operations';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: { name: null, email: null },
+  user: { name: null, email: null, avatarURL: null, subscription: null },
   // Кожен токен це унікальний зашифрований рядок, який містить три блоки: заголовок (header), набір полів (payload) та сигнатуру.
   token: null,
   isLoggedIn: false,

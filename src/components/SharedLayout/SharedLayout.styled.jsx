@@ -35,7 +35,7 @@ export const Main = styled.main`
 `;
 
 export const Footer = styled.footer`
-  /* padding-left: 20px; */
+  padding-bottom: 20px;
   margin-top: 20px;
 `;
 

@@ -1,6 +1,7 @@
 import { FaUserEdit, FaUserMinus } from 'react-icons/fa';
 import {
   Avatar,
+  EmailIcon,
   InputForm,
   Item,
   List,
@@ -32,20 +33,28 @@ export const ContactList = () => {
   // для редагування контакту
   const [subName, setSubName] = useState('');
   const [subNumber, setSubNumber] = useState('');
+  const [subEmail, setSubEmail] = useState('');
   const [subId, setSubId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOk = () => {
     setIsModalOpen(false);
     // редагуємо контакт
-    dispatch(redactContatc({ id: subId, name: subName, phone: subNumber }));
+    dispatch(
+      redactContatc({
+        _id: subId,
+        name: subName,
+        phone: subNumber,
+        email: subEmail,
+      })
+    );
   };
 
-  const showModal = (name, phone, id) => {
+  const showModal = (name, phone, email, id) => {
     setSubNumber(phone);
     setSubName(name);
+    setSubEmail(email);
     setSubId(id);
-    console.log(id);
     setIsModalOpen(true);
   };
 
@@ -77,7 +86,9 @@ export const ContactList = () => {
 
             <ListBtnWrapp>
               <ListBtn
-                onClick={() => showModal(item.name, item.phone, item._id)}
+                onClick={() =>
+                  showModal(item.name, item.phone, item.email, item._id)
+                }
               >
                 <FaUserEdit />
               </ListBtn>
@@ -106,6 +117,13 @@ export const ContactList = () => {
             value={subNumber}
             onChange={e => {
               setSubNumber(e.target.value);
+            }}
+          />
+          <InputForm
+            prefix={<EmailIcon />}
+            value={subEmail}
+            onChange={e => {
+              setSubEmail(e.target.value);
             }}
           />
         </ModalRedact>

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { Modal, Input } from 'antd';
-import { UserSwitchOutlined, PhoneOutlined } from '@ant-design/icons';
+import {
+  UserSwitchOutlined,
+  PhoneOutlined,
+  MailOutlined,
+} from '@ant-design/icons';
 
 export const List = styled.ul`
   max-width: 370px;
@@ -77,9 +81,7 @@ export const InputForm = styled(Input)`
   height: 40px;
   font-size: 18px;
   width: 100%;
-  :nth-child(1) {
-    margin-bottom: 12px;
-  }
+  margin-bottom: 12px;
 `;
 
 export const UserIcon = styled(UserSwitchOutlined)`
@@ -87,5 +89,9 @@ export const UserIcon = styled(UserSwitchOutlined)`
 `;
 
 export const PhoneIcon = styled(PhoneOutlined)`
+  color: ${p => p.theme.colors.accentDark};
+`;
+
+export const EmailIcon = styled(MailOutlined)`
   color: ${p => p.theme.colors.accentDark};
 `;

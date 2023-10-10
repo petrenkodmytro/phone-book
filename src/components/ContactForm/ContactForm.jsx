@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { FaUserPlus, FaUser } from 'react-icons/fa';
 import { BsFillTelephoneFill } from 'react-icons/bs';
+import { AiOutlineMail } from 'react-icons/ai';
 import {
   FormField,
   Form,
@@ -33,6 +34,7 @@ const ContactSchema = Yup.object().shape({
       'Phone phone must be digits and can contain spaces, dashes, parentheses and can start with +'
     )
     .required(),
+  email: Yup.string().email(),
 });
 
 export const ContactForm = () => {
@@ -41,12 +43,11 @@ export const ContactForm = () => {
   // Отримуємо необхідну частину стану зі стору
   const contacts = useSelector(selectContacts);
 
-  // console.log(selectContacts);
 
   return (
     <Formik
       // дивись документацію
-      initialValues={{ name: '', phone: '' }}
+      initialValues={{ name: '', phone: '', email: '' }}
       validationSchema={ContactSchema}
       onSubmit={(values, actions) => {
         // перевірка на існуюче ім'я контакту
@@ -64,9 +65,9 @@ export const ContactForm = () => {
           );
           return;
         }
-        console.log(values);
+
         dispatch(addContact({ ...values }));
-       
+
         actions.resetForm();
       }}
     >
@@ -87,6 +88,15 @@ export const ContactForm = () => {
           </LabelWrapper>
           <FieldInput name="phone" />
           <ErrorMessage name="phone" component="div" />
+        </FormField>
+
+        <FormField>
+          <LabelWrapper>
+            <AiOutlineMail size="16" />
+            Email
+          </LabelWrapper>
+          <FieldInput name="email" placeholder ="not required"/>
+          <ErrorMessage name="email" component="div" />
         </FormField>
 
         <FormBtnAdd type="submit">

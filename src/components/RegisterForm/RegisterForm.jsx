@@ -1,11 +1,13 @@
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { register } from 'redux/auth/auth-operations';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { ReegisterFormWrapp, RegisterFormBtn } from './RegisterForm.styled';
+import { selectErrorAuth } from 'redux/auth/auth-selectors';
+import { Text } from 'components/ContactList/ContactList.styled';
 
 const RegisterSchema = Yup.object({
   name: Yup.string()
@@ -22,90 +24,94 @@ const RegisterSchema = Yup.object({
 export const RegisterForm = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-
+  const error = useSelector(selectErrorAuth);
   const handlePasswordVisibility = () => {
     setShowPassword(prevShowPassword => !prevShowPassword);
   };
 
   return (
-    <ReegisterFormWrapp>
-      <Formik
-        initialValues={{
-          name: '',
-          email: '',
-          password: '',
-        }}
-        validationSchema={RegisterSchema}
-        onSubmit={({ ...values }, actions) => {
-          dispatch(register({ ...values }));
-          actions.resetForm();
-        }}
-      >
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <Field name="name">
-              {({ field, form: { touched, errors } }) => (
-                <TextField
-                  {...field}
-                  label="Name"
-                  variant="outlined"
-                  error={touched.name && Boolean(errors.name)}
-                  helperText={touched.name && errors.name}
-                  fullWidth
-                  margin="normal"
-                  autoComplete="off"
-                  size="small"
-                />
-              )}
-            </Field>
+    <>
+      <ReegisterFormWrapp>
+        <Formik
+          initialValues={{
+            name: '',
+            email: '',
+            password: '',
+          }}
+          validationSchema={RegisterSchema}
+          onSubmit={({ ...values }, actions) => {
+            dispatch(register({ ...values }));
+            actions.resetForm();
+          }}
+        >
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="name">
+                {({ field, form: { touched, errors } }) => (
+                  <TextField
+                    {...field}
+                    label="Name"
+                    variant="outlined"
+                    error={touched.name && Boolean(errors.name)}
+                    helperText={touched.name && errors.name}
+                    fullWidth
+                    margin="normal"
+                    autoComplete="off"
+                    size="small"
+                  />
+                )}
+              </Field>
 
-            <Field name="email">
-              {({ field, form: { touched, errors } }) => (
-                <TextField
-                  {...field}
-                  label="Email"
-                  variant="outlined"
-                  error={touched.email && Boolean(errors.email)}
-                  helperText={touched.email && errors.email}
-                  fullWidth
-                  margin="normal"
-                  autoComplete="off"
-                  size="small"
-                />
-              )}
-            </Field>
+              <Field name="email">
+                {({ field, form: { touched, errors } }) => (
+                  <TextField
+                    {...field}
+                    label="Email"
+                    variant="outlined"
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                    fullWidth
+                    margin="normal"
+                    autoComplete="off"
+                    size="small"
+                  />
+                )}
+              </Field>
 
-            <Field name="password">
-              {({ field, form: { touched, errors } }) => (
-                <TextField
-                  {...field}
-                  type={showPassword ? 'text' : 'password'}
-                  label="Password"
-                  variant="outlined"
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password && errors.password}
-                  fullWidth
-                  margin="normal"
-                  size="small"
-                  autoComplete="off"
-                  sx={{ mb: 2 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handlePasswordVisibility}>
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-            </Field>
+              <Field name="password">
+                {({ field, form: { touched, errors } }) => (
+                  <TextField
+                    {...field}
+                    type={showPassword ? 'text' : 'password'}
+                    label="Password"
+                    variant="outlined"
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
+                    fullWidth
+                    margin="normal"
+                    size="small"
+                    autoComplete="off"
+                    sx={{ mb: 2 }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handlePasswordVisibility}>
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              </Field>
 
-            <RegisterFormBtn type="submit">Register</RegisterFormBtn>
-          </form>
-        )}
-      </Formik>
-    </ReegisterFormWrapp>
+              <RegisterFormBtn type="submit">Register</RegisterFormBtn>
+            </form>
+          )}
+        </Formik>
+      </ReegisterFormWrapp>
+      {/* помилка запиту */}
+      {error && <Text>{error}</Text>}
+    </>
   );
 };

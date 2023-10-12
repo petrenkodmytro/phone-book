@@ -42,8 +42,8 @@ export const App = () => {
             path="/:verificationToken"
             element={
               <RestrictedRoute
-                redirectTo="/contacts"
-                component={<ContactsPage />}
+                redirectTo="/login"
+                component={<LoginPage />}
               />
             }
           />

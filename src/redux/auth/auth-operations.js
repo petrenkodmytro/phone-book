@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import Swal from 'sweetalert2';
 
 axios.defaults.baseURL = 'https://phonebook-jf2m.onrender.com/api';
 
@@ -23,9 +24,42 @@ export const register = createAsyncThunk(
     try {
       const response = await axios.post('/auth/register', credentials);
       setAuthHeader(response.data.token);
+      console.log(response.data);
+      // notification message
+      Swal.fire({
+        icon: 'success',
+        title: 'Info',
+        text: 'Verivication letter has been sent to your email',
+        confirmButtonColor: '#3E85F3',
+      });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+// export const verificationEmail = createAsyncThunk(
+//   'auth/verificationEmail',
+//   async (email, thunkAPI) => {
+//     try {
+//       const res = await axios.post('/auth/verify', email);
+//       return res.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error);
+//     }
+//   }
+// );
+
+export const verify = createAsyncThunk(
+  'auth/verify',
+  async (verificationToken, thunkAPI) => {
+    try {
+      const res = await axios.get(`auth/verify/${verificationToken}`);
+      setAuthHeader(res.data.token);
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );

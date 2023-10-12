@@ -17,7 +17,6 @@ export const App = () => {
   const dispatch = useDispatch();
   const { isRefreshing } = useAuth();
 
-  
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
@@ -29,12 +28,22 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
-          <Route
+          {/* <Route
             path="/register"
             element={
               <RestrictedRoute
                 redirectTo="/contacts"
                 component={<RegisterPage />}
+              />
+            }
+          /> */}
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/:verificationToken"
+            element={
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<ContactsPage />}
               />
             }
           />
@@ -55,7 +64,7 @@ export const App = () => {
           />
         </Route>
       </Routes>
-    
+
       <GlobalStyle />
     </>
   );

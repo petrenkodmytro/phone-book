@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import Swal from 'sweetalert2';
 
 axios.defaults.baseURL = 'https://phonebook-jf2m.onrender.com/api';
+// axios.defaults.baseURL = 'http://localhost:5000/api';
 
 // Utility to add JWT
 const setAuthHeader = token => {
@@ -23,8 +24,8 @@ export const register = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post('/auth/register', credentials);
-      setAuthHeader(response.data.token);
-      console.log(response.data);
+      // setAuthHeader(response.data.token);
+      // console.log(response.data);
       // notification message
       Swal.fire({
         icon: 'success',
@@ -51,18 +52,19 @@ export const register = createAsyncThunk(
 //   }
 // );
 
-export const verify = createAsyncThunk(
-  'auth/verify',
-  async (verificationToken, thunkAPI) => {
-    try {
-      const res = await axios.get(`auth/verify/${verificationToken}`);
-      setAuthHeader(res.data.token);
-      return res.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
+// export const verify = createAsyncThunk(
+//   'auth/verify',
+//   async (verificationToken, thunkAPI) => {
+//     try {
+//       const res = await axios.get(`auth/verify/${verificationToken}`);
+//       setAuthHeader(res.data.token);
+//       console.log(res.data.token);
+//       return res.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error);
+//     }
+//   }
+// );
 
 /*
  * POST @ /users/login

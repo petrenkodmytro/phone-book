@@ -3,7 +3,6 @@ import {
   logOut,
   refreshUser,
   register,
-  verify,
 } from './auth-operations';
 
 import { createSlice } from '@reduxjs/toolkit';
